@@ -7,13 +7,13 @@ import hashlib
 import socket
 import urllib
 import urllib2
-
+import requests
 #url = "http://"
 
 HOSTNAME = socket.gethostname()
-SERVER_ENDPOINT = 'http://127.0.0.1:8001/agent/report/'
-#SERVER_ENDPOINT = 'http://192.168.2.103:5000/somedata'
-MIN_SIGNAL_DBM = -90
+#SERVER_ENDPOINT = 'http://127.0.0.1:8001/agent/report/'
+SERVER_ENDPOINT = 'http://192.168.2.103:5000/somedata'
+MIN_SIGNAL_DBM = -65
 
 def main_loop():
     # Remove the log file if present
@@ -85,10 +85,15 @@ def report(sightings):
             }
             print(data)
             # don't crash if the request fails
+            #response = requests.post(SERVER_ENDPOINT, data)
+	    #print(response)
             try:
-                req = urllib2.urlopen(SERVER_ENDPOINT, urllib.urlencode(data))
-                print('   response = %s' % req.getcode())
-                req.close()
+		print("starting")
+		response = requests.post(SERVER_ENDPOINT, data)
+		print(response)
+                #req = urllib2.urlopen(SERVER_ENDPOINT, urllib.urlencode(data))
+                #print('   response = %s' % req.getcode())
+                #req.close()
             except:
                 pass
  
